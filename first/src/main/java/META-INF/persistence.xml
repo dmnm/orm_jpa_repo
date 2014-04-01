@@ -5,12 +5,11 @@
 		<mapping-file>META-INF/orm.xml</mapping-file>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:D:\opt\orm_jpa\first"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:/opt/orm_jpa/first"/>
 			<property name="javax.persistence.jdbc.user" value="sa"/>
 			<property name="javax.persistence.jdbc.password" value=""/>
 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
 			<property name="eclipselink.ddl-generation" value="create-tables"/>
-            <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_ddlGeneration.jdbc"/>
             <property name="eclipselink.ddl-generation.output-mode" value="both"/>
 		</properties>
 	</persistence-unit>

@@ -7,27 +7,44 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.eclipse.persistence.internal.jpa.ExceptionFactory;
+
 import orm.jpa.first.entity.FirstEntity;
 
 public class Main {
 
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
-		EntityManager em = emf.createEntityManager();
-
-		em.getTransaction().begin();
-
-		Query query = em.createQuery("SELECT e FROM FirstEntity e WHERE e.name = 'First'");
-		List<FirstEntity> results = query.getResultList();
-
-
-		for (FirstEntity entity : results) {
-			entity.setAmount(entity.getAmount() * 2);
+		try {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+			EntityManager em = emf.createEntityManager();
+	
+			em.getTransaction().begin();
+			
+			FirstEntity fe = new FirstEntity();
+			fe.setName("First");
+			fe.setAmount(1L);
+			
+			em.persist(fe);
+			
+			em.getTransaction().commit();
+			
+			em.getTransaction().begin();
+	
+			Query query = em.createQuery("SELECT e FROM FirstEntity e WHERE e.name = 'First'");
+			List<FirstEntity> results = query.getResultList();
+	
+	
+			for (FirstEntity entity : results) {
+				entity.setAmount(entity.getAmount() * 2);
+			}
+	
+			em.getTransaction().commit();
+	
+			em.close();
+			emf.close();
+		} catch (Exception e){
+			System.out.println(e);
 		}
-
-		em.getTransaction().commit();
-
-		em.close();
 	}
 
 }
