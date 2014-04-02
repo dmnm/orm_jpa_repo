@@ -35,7 +35,9 @@ public class Main {
 	
 	
 			for (FirstEntity entity : results) {
+				System.out.println(entity.getId() + " :: " + entity.getAmount());
 				entity.setAmount(entity.getAmount() * 2);
+				System.out.println(entity.getId() + " :: " + entity.getAmount());
 			}
 	
 			em.getTransaction().commit();

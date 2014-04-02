@@ -8,8 +8,7 @@ import javax.persistence.Id;
 
 @Entity
 public class FirstEntity {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Id @GeneratedValue(strategy=GenerationType.TABLE)
 	private Long id;
 	@Column
 	private String name;
