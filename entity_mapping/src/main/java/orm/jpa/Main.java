@@ -4,8 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import orm.jpa.entity.Annotated;
-import orm.jpa.entity.XMLMapping;
+import orm.jpa.entity.Company;
+import orm.jpa.entity.User;
 
 public class Main {
 
@@ -16,21 +16,21 @@ public class Main {
 
             em.getTransaction().begin();
 
-            final Annotated a = new Annotated();
-            a.setName("a1");
-            a.setValue("value");
+            final User a = new User();
+            a.setFirstName("firstName");
+            a.setSecondName("secondName");
 
             em.persist(a);
 
-            final XMLMapping xml = new XMLMapping();
-            xml.name = "xml";
-            xml.value = "value";
+            final Company company = new Company();
+            company.name = "Exigen";
+            company.home = "US";
 
-            em.persist(xml);
+            em.persist(company);
 
-            // yet another xml entity?
-            xml.value = "value2";
-            em.persist(xml);
+            // yet another entity?
+            company.name = "ROI";
+            em.persist(company);
 
             em.getTransaction().commit();
 

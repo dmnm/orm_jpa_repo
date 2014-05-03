@@ -1,8 +1,8 @@
 package orm.jpa.entity;
 
-public class XMLMapping {
+public class Company {
 
     public Long id;
     public String name;
-    public String value;
+    public String home;
 }

@@ -8,18 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "anno_entity")
-public class Annotated {
+@Table(name = "app_users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    @Column(name = "entity_name")
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column
-    private String value;
+    @Column(name = "second_name")
+    private String secondName;
 
     public Long getId() {
         return id;
@@ -29,19 +29,20 @@ public class Annotated {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(final String name) {
-        this.name = name;
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getValue() {
-        return value;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setValue(final String value) {
-        this.value = value;
+    public void setSecondName(final String secondName) {
+        this.secondName = secondName;
     }
+
 }
