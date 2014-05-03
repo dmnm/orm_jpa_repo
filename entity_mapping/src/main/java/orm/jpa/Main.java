@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(final String[] args) {
         try {
-            // first();
+            first();
             // second();
         } catch (final Exception e) {
             System.out.println(e);
@@ -37,11 +37,11 @@ public class Main {
         company.name = "Exigen";
         company.home = "US";
 
-        em.persist(company);
+        EM.persist(company);
 
         // yet another entity?
         company.name = "ROI";
-        em.persist(company);
+        EM.persist(company);
 
         EM.getTransaction().commit();
 
