@@ -4,8 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import orm.jpa.entity.Company;
-import orm.jpa.entity.User;
+import orm.jpa.entity.Programmer;
+import orm.jpa.entity.Tester;
 
 public class Main {
 
@@ -14,8 +14,7 @@ public class Main {
 
     public static void main(final String[] args) {
         try {
-            // first();
-            // second();
+            first();
         } catch (final Exception e) {
             System.out.println(e);
         } finally {
@@ -27,25 +26,21 @@ public class Main {
     private static void first() {
         EM.getTransaction().begin();
 
-        final User a = new User();
-        a.setFirstName("firstName");
-        a.setSecondName("secondName");
+        final Programmer pj = new Programmer();
+        pj.firstName = "frst";
+        pj.secondName = "scnd";
+        pj.primaryLanguage = "java";
+        pj.secondaryLanguage = "js";
 
-        EM.persist(a);
+        EM.persist(pj);
 
-        final Company company = new Company();
-        company.name = "Exigen";
-        company.home = "US";
+        final Tester t = new Tester();
+        t.firstName = "name";
+        t.automation = true;
 
-        em.persist(company);
-
-        // yet another entity?
-        company.name = "ROI";
-        em.persist(company);
+        EM.persist(t);
 
         EM.getTransaction().commit();
-
-        EM.close();
     }
 
 }
