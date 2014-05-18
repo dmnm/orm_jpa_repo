@@ -16,23 +16,23 @@ public class TestCasesJpa {
     protected EntityManager em;
 
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void beforeClass() throws Exception {
         emf = Persistence.createEntityManagerFactory("default");
     }
 
     @AfterClass
-    public static void tearDownAfterClass() throws Exception {
+    public static void afterClass() throws Exception {
         emf.close();
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void beforeTest() throws Exception {
         em = emf.createEntityManager();
         em.getTransaction().begin();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void afterTest() throws Exception {
         em.getTransaction().commit();
         em.close();
     }

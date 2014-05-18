@@ -1,7 +1,13 @@
 package orm.jpa.entity;
 
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
+import static javax.persistence.CascadeType.REMOVE;
+
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
@@ -31,10 +37,10 @@ public class Employee {
 
     public String secondName;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = { PERSIST, MERGE, REMOVE, REFRESH })
     @JoinColumn(name = "department_id")
     public Department department;
 
-    @ManyToMany(mappedBy = "employees")
+    @ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL)
     public List<Project> projects;
 }

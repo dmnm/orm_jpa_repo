@@ -1,13 +1,9 @@
 package orm.jpa.entity;
 
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REFRESH;
-import static javax.persistence.CascadeType.REMOVE;
-
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,11 +15,11 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    Long id;
+    public Long id;
 
     @Basic(optional = true)
-    String name;
+    public String name;
 
-    @OneToMany(mappedBy = "department", cascade = { PERSIST, MERGE, REMOVE, REFRESH }, orphanRemoval = false)
-    List<Employee> employees;
+    @OneToMany(mappedBy = "department", orphanRemoval = false, cascade = CascadeType.ALL)
+    public List<Employee> employees;
 }
