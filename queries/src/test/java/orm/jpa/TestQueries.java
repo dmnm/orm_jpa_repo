@@ -15,6 +15,7 @@ import javax.persistence.criteria.Root;
 
 import org.junit.Test;
 
+import orm.jpa.entity.Department;
 import orm.jpa.entity.Programmer;
 import orm.jpa.entity.Programmer_;
 
@@ -50,6 +51,30 @@ public class TestQueries extends TestCasesJpa {
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
+    }
+
+    @Test
+    public void testNative() {}
+    
+    @Test
+    public void testNamed() {
+        final Query countQuery = em.createNamedQuery("Departments.count");
+        final long count = (long) countQuery.getSingleResult();
+
+        final Query allQuery = em.createNamedQuery("Departments.all");
+        final List<Department> all = allQuery.getResultList();
+
+        final Query byNameQuery = em.createNamedQuery("Departments.byName").setParameter("name", "SQA");
+        final List<Department> byName = byNameQuery.getResultList();
+
+        assertEquals(2L, count);
+
+        assertFalse(all.isEmpty());
+        assertEquals(2, all.size());
+
+        assertFalse(byName.isEmpty());
+        assertEquals(1, byName.size());
+        assertEquals("SQA", byName.get(0).name);
     }
 
     @Test

@@ -70,6 +70,13 @@ public class Main {
             EM.persist(me);
         }
 
+        {
+            final Department sqa = new Department();
+            sqa.name = "SQA";
+
+            EM.persist(sqa);
+        }
+
         EM.getTransaction().commit();
     }
 

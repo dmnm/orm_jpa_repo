@@ -8,9 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQueries({ 
+    @NamedQuery(name = "Departments.all", query = "select d from Department d"),
+    @NamedQuery(name = "Departments.count", query = "select count(d) from Department d"),
+    @NamedQuery(name = "Departments.byName", query = "select d from Department d where d.name = :name") })
 public class Department {
 
     @Id
