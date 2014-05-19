@@ -54,12 +54,9 @@ public class TestQueries extends TestCasesJpa {
     }
 
     @Test
-    public void testNative() {}
-    
-    @Test
     public void testNamed() {
         final Query countQuery = em.createNamedQuery("Departments.count");
-        final long count = (long) countQuery.getSingleResult();
+        final long count = (Long) countQuery.getSingleResult();
 
         final Query allQuery = em.createNamedQuery("Departments.all");
         final List<Department> all = allQuery.getResultList();
@@ -76,6 +73,9 @@ public class TestQueries extends TestCasesJpa {
         assertEquals(1, byName.size());
         assertEquals("SQA", byName.get(0).name);
     }
+
+    @Test
+    public void testNative() {}
 
     @Test
     public void testCriteriaApi() {
