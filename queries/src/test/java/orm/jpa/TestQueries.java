@@ -1,7 +1,6 @@
 package orm.jpa;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -23,7 +22,8 @@ public class TestQueries extends TestCasesJpa {
 
     @Test
     public void testJpql() {
-        final String ql = "select " +
+        final String ql =
+                "select " +
         		"new orm.jpa.EmpDto(" +
         		" e.id, " +
         		" e.firstName, " +
@@ -75,7 +75,23 @@ public class TestQueries extends TestCasesJpa {
     }
 
     @Test
-    public void testNative() {}
+    public void testNative() {
+        final String sql = 
+                "select d.id, d.name, count(e.id) as count_of_employees " +
+                "from department d " +
+                "left join employee e on e.department_id = d.id " +
+                "group by d.id";
+        final Query query = em.createNativeQuery(sql, "departmentsWithCountOfEmployees");
+
+        final List<Object[]> result = query.getResultList();
+
+        for(final Object[] array : result) {
+            assertTrue(array[0] instanceof Department);
+            assertTrue(array[1] instanceof Number);
+            final Department d = (Department) array[0];
+            System.err.println(d.name + ": " + array[1]);
+        }
+    }
 
     @Test
     public void testCriteriaApi() {

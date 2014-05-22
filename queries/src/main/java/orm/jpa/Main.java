@@ -13,22 +13,22 @@ import orm.jpa.entity.Tester;
 
 public class Main {
 
-    private static final EntityManagerFactory EMF = Persistence.createEntityManagerFactory("default");
-    private static final EntityManager EM = EMF.createEntityManager();
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+    private static final EntityManager em = emf.createEntityManager();
 
     public static void main(final String[] args) {
         try {
-            first();
+            fill();
         } catch (final Exception e) {
             System.out.println(e);
         } finally {
-            EM.close();
-            EMF.close();
+            em.close();
+            emf.close();
         }
     }
 
-    private static void first() {
-        EM.getTransaction().begin();
+    private static void fill() {
+        em.getTransaction().begin();
 
         {
             final Programmer pj = new Programmer();
@@ -37,7 +37,7 @@ public class Main {
             pj.primaryLanguage = "java";
             pj.secondaryLanguage = "js";
 
-            EM.persist(pj);
+            em.persist(pj);
         }
 
         {
@@ -45,7 +45,7 @@ public class Main {
             t.firstName = "name";
             t.automation = true;
 
-            EM.persist(t);
+            em.persist(t);
         }
 
         {
@@ -67,17 +67,17 @@ public class Main {
             me.projects = asList(project);
             project.employees = asList(me);
 
-            EM.persist(me);
+            em.persist(me);
         }
 
         {
             final Department sqa = new Department();
             sqa.name = "SQA";
 
-            EM.persist(sqa);
+            em.persist(sqa);
         }
 
-        EM.getTransaction().commit();
+        em.getTransaction().commit();
     }
 
 }
