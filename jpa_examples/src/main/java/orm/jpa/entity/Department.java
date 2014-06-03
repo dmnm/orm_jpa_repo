@@ -30,4 +30,9 @@ public class Department {
 
     @OneToMany(mappedBy = "department", orphanRemoval = false, cascade = CascadeType.ALL)
     public List<Employee> employees;
+
+    @Override
+    public String toString() {
+        return "Department [id=" + id + ", name=" + name + "]";
+    }
 }

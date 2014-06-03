@@ -28,4 +28,9 @@ public class Project {
             referencedColumnName = "id") })
     public List<Employee> employees;
 
+    @Override
+    public String toString() {
+        return "Project [id=" + id + ", name=" + name + "]";
+    }
+
 }

@@ -1,6 +1,8 @@
 package orm.jpa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -14,49 +16,107 @@ import javax.persistence.criteria.Root;
 
 import org.junit.Test;
 
-import orm.jpa.entity.Company;
 import orm.jpa.entity.Department;
 import orm.jpa.entity.Employee;
 import orm.jpa.entity.Employee_;
-import orm.jpa.entity.User;
+import orm.jpa.entity.Project;
 
 public class TestQueries extends TestCasesJpa {
 
     @Test
-    public void testJpql() {
-        final String ql =
-                "select " +
-        		"new orm.jpa.EmpDto(" +
-        		" e.id, " +
-        		" e.firstName, " +
-        		" e.secondName, " +
-        		" e.department.name, " +
-        		" p.name, " +
-        		" type(e)" +
-        		") " +
-        		"from Project p join p.employees e " +
-        		"where e.firstName = ?1 and p.name = ?2";
+    public void test_native() {
+        final String sql =
+                "select e.id, e.firstname, e.secondname, d.name, p.name" +
+                        " from employee e" +
+                        " join department d on d.id = e.department_id" +
+                        " join project_has_employee pe on pe.employee_id = e.id" +
+                        " inner join project p on p.id = pe.project_id" +
+                        " where e.firstname = ?1" +
+                        " and e.secondname = ?2" +
+                        " and p.name = ?3" +
+                        " and d.name = ?4";
 
-        final Query query = em.createQuery(ql);
+        final Query query = em.createNativeQuery(sql)
+                .setParameter(1, "Dmitry")
+                .setParameter(2, "Popov")
+                .setParameter(3, "Hugin")
+                .setParameter(4, "R&D");
 
-        query.setParameter(1, "Dmitry");
-        query.setParameter(2, "Hugin");
+        final List<Object[]> result = query.getResultList();
+
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+        assertEquals(5, result.get(0).length);
+
+        for (final Object o : result.get(0)) {
+            System.err.println(o);
+        }
+    }
+
+    @Test
+    public void test_jpql_simple() {
+        final String jpql =
+                "select e, d, p from Employee e" +
+                        " join e.department d" +
+                        " join e.projects p" +
+                        " where e.firstName = :firstName" +
+                        " and e.secondName = :secondName" +
+                        " and p.name = :project" +
+                        " and d.name = :department";
+
+        final Query query = em.createQuery(jpql)
+                .setParameter("firstName", "Dmitry")
+                .setParameter("secondName", "Popov")
+                .setParameter("project", "Hugin")
+                .setParameter("department", "R&D");
+
+        final List<Object[]> result = query.getResultList();
+
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+        assertEquals(3, result.get(0).length);
+
+        assertTrue(result.get(0)[0] instanceof Employee);
+        assertTrue(result.get(0)[1] instanceof Department);
+        assertTrue(result.get(0)[2] instanceof Project);
+
+        System.err.println(result.get(0)[0]);
+        System.err.println(result.get(0)[1]);
+        System.err.println(result.get(0)[2]);
+    }
+
+    @Test
+    public void test_jpql_with_dto() {
+        final String jpql =
+                "select new orm.jpa.EmployeeDto(" +
+                        " e.id, " +
+                        " e.firstName, " +
+                        " e.secondName, " +
+                        " e.department.name, " +
+                        " p.name" +
+                        ") " +
+                        "from Project p join p.employees e " +
+                        "where e.firstName = :firstName and p.name = :project";
+
+        final Query query = em.createQuery(jpql)
+                .setParameter("firstName", "Dmitry")
+                .setParameter("project", "Hugin");
 
         query.setFirstResult(0);
         query.setMaxResults(10);
 
-        final List<EmpDto> result = query.getResultList();
-
-        for (final EmpDto dto : result) {
-            System.err.println(dto);
-        }
+        final List<EmployeeDto> result = query.getResultList();
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
+
+        for (final EmployeeDto dto : result) {
+            System.err.println(dto);
+        }
     }
 
     @Test
-    public void testNamed() {
+    public void test_named() {
         final Query countQuery = em.createNamedQuery("Departments.count");
         final long count = (Long) countQuery.getSingleResult();
 
@@ -67,36 +127,30 @@ public class TestQueries extends TestCasesJpa {
         final List<Department> byName = byNameQuery.getResultList();
 
         assertEquals(2L, count);
+        System.err.println("Departments.count: " + count);
 
         assertFalse(all.isEmpty());
         assertEquals(2, all.size());
 
+        System.err.println("Departments.all: {");
+        for (final Department d : all) {
+            System.err.println("\t" + d);
+        }
+        System.err.println("}");
+
         assertFalse(byName.isEmpty());
         assertEquals(1, byName.size());
         assertEquals("SQA", byName.get(0).name);
-    }
 
-    @Test
-    public void testNative() {
-        final String sql = 
-                "select d.id, d.name, count(e.id) as count_of_employees " +
-                "from department d " +
-                "left join employee e on e.department_id = d.id " +
-                "group by d.id";
-        final Query query = em.createNativeQuery(sql, "departmentsWithCountOfEmployees");
-
-        final List<Object[]> result = query.getResultList();
-
-        for(final Object[] array : result) {
-            assertTrue(array[0] instanceof Department);
-            assertTrue(array[1] instanceof Number);
-            final Department d = (Department) array[0];
-            System.err.println(d.name + ": " + array[1]);
+        System.err.println("Departments.byName = SQA: {");
+        for (final Department d : byName) {
+            System.err.println("\t" + d);
         }
+        System.err.println("}");
     }
 
     @Test
-    public void testCriteriaApi() {
+    public void test_criteria_api() {
         final CriteriaBuilder builder = em.getCriteriaBuilder();
         final CriteriaQuery<Employee> criteria = builder.createQuery(Employee.class);
         final Root<Employee> root = criteria.from(Employee.class);
@@ -104,59 +158,42 @@ public class TestQueries extends TestCasesJpa {
         final ParameterExpression<String> first_name = builder.parameter(String.class);
         final ParameterExpression<String> second_name = builder.parameter(String.class);
 
-        final Predicate nameCondition = builder.equal(root.get(Employee_.firstName), first_name);
-        final Predicate langCondition = builder.equal(root.get(Employee_.secondName), second_name);
-        final Predicate conditions = builder.or(nameCondition, langCondition);
+        final Predicate fnameCondition = builder.equal(root.get(Employee_.firstName), first_name);
+        final Predicate snameCondition = builder.equal(root.get(Employee_.secondName), second_name);
+        final Predicate conditions = builder.and(fnameCondition, snameCondition);
 
         criteria.where(conditions);
 
-        final TypedQuery<Employee> query = em.createQuery(criteria);
-        query.setParameter(first_name, "some_name");
-        query.setParameter(second_name, "java");
+        final TypedQuery<Employee> query = em.createQuery(criteria)
+                .setParameter(first_name, "Dmitry")
+                .setParameter(second_name, "Popov");
 
         final List<Employee> result = query.getResultList();
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
-        assertEquals("frst", result.get(0).firstName);
+        assertEquals("Dmitry", result.get(0).firstName);
+
+        System.err.println(result.get(0));
     }
 
     @Test
-    public void testNotCriteriaApi() {
-        final String ql = 
-                "select p from Employee p " +
-        		"where p.firstName = :firstName" +
-        		" or p.primaryLanguage = :primaryLanguage";
-        final Query query = em.createQuery(ql);
+    public void test_no_criteria_api() {
+        final String jpql =
+                "select e from Employee e" +
+                        " where e.firstName = :firstName" +
+                        " and e.secondName = :secondName";
 
-        query.setParameter("firstName", "some_name");
-        query.setParameter("primaryLanguage", "java");
+        final Query query = em.createQuery(jpql)
+                .setParameter("firstName", "Dmitry")
+                .setParameter("secondName", "Popov");
 
         final List<Employee> result = query.getResultList();
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
-        assertEquals("frst", result.get(0).firstName);
-    }
-    
-    @Test
-    public void testPersist() {
+        assertEquals("Dmitry", result.get(0).firstName);
 
-        final User a = new User();
-        a.setFirstName("firstName");
-        a.setSecondName("secondName");
-
-        em.persist(a);
-
-        final Company company = new Company();
-        company.name = "Exigen";
-        company.home = "US";
-
-        em.persist(company);
-
-        // yet another entity?
-        company.name = "ROI";
-
-        em.persist(company);
+        System.err.println(result.get(0));
     }
 }

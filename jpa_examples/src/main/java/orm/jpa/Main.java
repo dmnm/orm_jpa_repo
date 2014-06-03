@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import orm.jpa.entity.Company;
 import orm.jpa.entity.Department;
 import orm.jpa.entity.Employee;
 import orm.jpa.entity.Project;
@@ -18,8 +19,9 @@ public class Main {
     public static void main(final String[] args) {
         try {
             fill();
+            //testMerge();
         } catch (final Exception e) {
-            System.out.println(e);
+            System.err.println(e);
         } finally {
             em.close();
             emf.close();
@@ -31,15 +33,22 @@ public class Main {
 
         {
             final Employee pj = new Employee();
-            pj.firstName = "Jave";
+            pj.firstName = "Java";
             pj.secondName = "Developer";
 
             em.persist(pj);
         }
 
         {
+            final Department sqa = new Department();
+            sqa.name = "SQA";
+
+            em.persist(sqa);
+
             final Employee t = new Employee();
             t.firstName = "Tester";
+
+            t.department = sqa;
 
             em.persist(t);
         }
@@ -63,14 +72,27 @@ public class Main {
             em.persist(me);
         }
 
-        {
-            final Department sqa = new Department();
-            sqa.name = "SQA";
-
-            em.persist(sqa);
-        }
-
         em.getTransaction().commit();
     }
 
+    private static void testMerge() {
+        em.getTransaction().begin();
+
+        final Company company = new Company();
+        company.name = "Exigen";
+        company.home = "US";
+
+        em.persist(company);
+
+        company.name = "ROI";
+        em.persist(company);
+
+        em.getTransaction().commit();
+
+        company.name = "ROI";
+        em.persist(company);
+
+        company.name = "Return on Intelligence";
+        em.merge(company);
+    }
 }

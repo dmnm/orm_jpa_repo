@@ -36,4 +36,9 @@ public class Employee {
 
     @ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Project> projects;
+
+    @Override
+    public String toString() {
+        return "Employee [id=" + id + ", firstName=" + firstName + ", secondName=" + secondName + "]";
+    }
 }
