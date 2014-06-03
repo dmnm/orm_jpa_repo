@@ -16,7 +16,6 @@
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
 			<property name="eclipselink.ddl-generation" value="create-tables"/>
             <property name="eclipselink.ddl-generation.output-mode" value="both"/>
-            <property name="eclipselink.canonicalmodel.subpackage" value="meta"/>
 		</properties>
 	</persistence-unit>
 </persistence>

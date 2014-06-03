@@ -16,10 +16,12 @@ import org.junit.Test;
 
 import orm.jpa.entity.Company;
 import orm.jpa.entity.Department;
+import orm.jpa.entity.Employee;
+import orm.jpa.entity.Employee_;
 import orm.jpa.entity.User;
 
 public class TestQueries extends TestCasesJpa {
-/*
+
     @Test
     public void testJpql() {
         final String ql =
@@ -96,23 +98,23 @@ public class TestQueries extends TestCasesJpa {
     @Test
     public void testCriteriaApi() {
         final CriteriaBuilder builder = em.getCriteriaBuilder();
-        final CriteriaQuery<Programmer> criteria = builder.createQuery(Programmer.class);
-        final Root<Programmer> root = criteria.from(Programmer.class);
+        final CriteriaQuery<Employee> criteria = builder.createQuery(Employee.class);
+        final Root<Employee> root = criteria.from(Employee.class);
 
-        final ParameterExpression<String> name = builder.parameter(String.class);
-        final ParameterExpression<String> lang = builder.parameter(String.class);
+        final ParameterExpression<String> first_name = builder.parameter(String.class);
+        final ParameterExpression<String> second_name = builder.parameter(String.class);
 
-        final Predicate nameCondition = builder.equal(root.get(Programmer_.firstName), name);
-        final Predicate langCondition = builder.equal(root.get(Programmer_.primaryLanguage), lang);
+        final Predicate nameCondition = builder.equal(root.get(Employee_.firstName), first_name);
+        final Predicate langCondition = builder.equal(root.get(Employee_.secondName), second_name);
         final Predicate conditions = builder.or(nameCondition, langCondition);
 
         criteria.where(conditions);
 
-        final TypedQuery<Programmer> query = em.createQuery(criteria);
-        query.setParameter(name, "some_name");
-        query.setParameter(lang, "java");
+        final TypedQuery<Employee> query = em.createQuery(criteria);
+        query.setParameter(first_name, "some_name");
+        query.setParameter(second_name, "java");
 
-        final List<Programmer> result = query.getResultList();
+        final List<Employee> result = query.getResultList();
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
@@ -122,7 +124,7 @@ public class TestQueries extends TestCasesJpa {
     @Test
     public void testNotCriteriaApi() {
         final String ql = 
-                "select p from Programmer p " +
+                "select p from Employee p " +
         		"where p.firstName = :firstName" +
         		" or p.primaryLanguage = :primaryLanguage";
         final Query query = em.createQuery(ql);
@@ -130,7 +132,7 @@ public class TestQueries extends TestCasesJpa {
         query.setParameter("firstName", "some_name");
         query.setParameter("primaryLanguage", "java");
 
-        final List<Programmer> result = query.getResultList();
+        final List<Employee> result = query.getResultList();
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
@@ -154,6 +156,7 @@ public class TestQueries extends TestCasesJpa {
 
         // yet another entity?
         company.name = "ROI";
+
         em.persist(company);
-    }*/
+    }
 }

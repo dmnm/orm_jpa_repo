@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import orm.jpa.entity.Department;
+import orm.jpa.entity.Employee;
 import orm.jpa.entity.Project;
 
 public class Main {
@@ -15,7 +16,7 @@ public class Main {
     private static final EntityManager em = emf.createEntityManager();
 
     public static void main(final String[] args) {
-/*        try {
+        try {
             fill();
         } catch (final Exception e) {
             System.out.println(e);
@@ -29,30 +30,24 @@ public class Main {
         em.getTransaction().begin();
 
         {
-            final Programmer pj = new Programmer();
-            pj.firstName = "frst";
-            pj.secondName = "scnd";
-            pj.primaryLanguage = "java";
-            pj.secondaryLanguage = "js";
+            final Employee pj = new Employee();
+            pj.firstName = "Jave";
+            pj.secondName = "Developer";
 
             em.persist(pj);
         }
 
         {
-            final Tester t = new Tester();
-            t.firstName = "name";
-            t.automation = true;
+            final Employee t = new Employee();
+            t.firstName = "Tester";
 
             em.persist(t);
         }
 
         {
-            final Programmer me = new Programmer();
+            final Employee me = new Employee();
             me.firstName = "Dmitry";
             me.secondName = "Popov";
-
-            me.primaryLanguage = "Java";
-            me.secondaryLanguage = "SQL";
 
             final Department department = new Department();
             department.name = "R&D";
@@ -75,7 +70,7 @@ public class Main {
             em.persist(sqa);
         }
 
-        em.getTransaction().commit();*/
+        em.getTransaction().commit();
     }
 
 }
