@@ -21,6 +21,7 @@ import orm.jpa.entity.Employee;
 import orm.jpa.entity.Employee_;
 import orm.jpa.entity.Project;
 
+@SuppressWarnings("unchecked")
 public class TestQueries extends TestCasesJpa {
 
     @Test

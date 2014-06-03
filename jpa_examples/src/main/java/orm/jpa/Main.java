@@ -19,7 +19,7 @@ public class Main {
     public static void main(final String[] args) {
         try {
             fill();
-            //testMerge();
+            //testLifecycle();
         } catch (final Exception e) {
             System.err.println(e);
         } finally {
@@ -75,7 +75,8 @@ public class Main {
         em.getTransaction().commit();
     }
 
-    private static void testMerge() {
+    @SuppressWarnings("unused")
+    private static void testLifecycle() {
         em.getTransaction().begin();
 
         final Company company = new Company();
