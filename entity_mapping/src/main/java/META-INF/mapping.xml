@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-mappings version="2.0" xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
-	<entity class="orm.jpa.entity.XMLMapping" access="FIELD">
-		<table name="xml_mapping"/>
+	<entity class="orm.jpa.entity.Company" access="FIELD">
+		<table name="company"/>
 		<attributes>
 			<id name="id">
 				<generated-value strategy="TABLE"/>
 			</id>
 			<basic name="name"/>
-			<basic name="value">
-				<column name="entity_value" length="100"/>
+			<basic name="home">
+				<column name="company_home" length="100"/>
 			</basic>
 		</attributes>
 	</entity>

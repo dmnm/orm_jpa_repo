@@ -2,12 +2,12 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<!-- <mapping-file>META-INF/mapping.xml</mapping-file> -->
+		<mapping-file>META-INF/mapping.xml</mapping-file>
 		<!-- <class>orm.jpa.entity.Annotated</class> -->
 		<!-- <class>orm.jpa.entity.Employee</class> -->
 		<!-- <class>orm.jpa.entity.Project</class> -->
 		<!-- <class>orm.jpa.entity.Department</class> -->
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/opt/orm_jpa/entity_mapping.db"/>
 			<property name="javax.persistence.jdbc.user" value=""/>

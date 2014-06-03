@@ -9,43 +9,40 @@ import orm.jpa.entity.User;
 
 public class Main {
 
-    private static final EntityManagerFactory EMF = Persistence.createEntityManagerFactory("default");
-    private static final EntityManager EM = EMF.createEntityManager();
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+    private static final EntityManager em = emf.createEntityManager();
 
     public static void main(final String[] args) {
         try {
-            first();
-            // second();
+            test();
         } catch (final Exception e) {
             System.out.println(e);
         } finally {
-            EM.close();
-            EMF.close();
+            em.close();
+            emf.close();
         }
     }
 
-    private static void first() {
-        EM.getTransaction().begin();
+    private static void test() {
+        em.getTransaction().begin();
 
         final User a = new User();
         a.setFirstName("firstName");
         a.setSecondName("secondName");
 
-        EM.persist(a);
+        em.persist(a);
 
         final Company company = new Company();
         company.name = "Exigen";
         company.home = "US";
 
-        EM.persist(company);
+        em.persist(company);
 
         // yet another entity?
         company.name = "ROI";
-        EM.persist(company);
+        em.persist(company);
 
-        EM.getTransaction().commit();
-
-        EM.close();
+        em.getTransaction().commit();
     }
 
 }
