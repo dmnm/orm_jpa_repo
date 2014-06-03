@@ -1,0 +1,8 @@
+ALTER TABLE EMPLOYEE DROP CONSTRAINT FK_EMPLOYEE_department_id
+ALTER TABLE project_has_employee DROP CONSTRAINT FK_project_has_employee_project_id
+ALTER TABLE project_has_employee DROP CONSTRAINT FK_project_has_employee_employee_id
+DROP TABLE EMPLOYEE
+DROP TABLE PROJECT
+DROP TABLE DEPARTMENT
+DROP TABLE project_has_employee
+DELETE FROM SEQUENCE WHERE SEQ_NAME = 'SEQ_GEN_TABLE'
