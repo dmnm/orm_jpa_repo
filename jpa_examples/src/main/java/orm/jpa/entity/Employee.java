@@ -30,7 +30,7 @@ public class Employee {
 
     public String secondName;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = { PERSIST, MERGE, REMOVE, REFRESH })
+    @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = { PERSIST, MERGE, REMOVE, REFRESH })
     @JoinColumn(name = "department_id")
     public Department department;
 

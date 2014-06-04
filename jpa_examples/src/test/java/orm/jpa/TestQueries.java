@@ -160,7 +160,7 @@ public class TestQueries extends TestCasesJpa {
         final ParameterExpression<String> second_name = builder.parameter(String.class);
 
         final Predicate fnameCondition = builder.equal(root.get(Employee_.firstName), first_name);
-        final Predicate snameCondition = builder.equal(root.get(Employee_.secondName), second_name);
+        final Predicate snameCondition = builder.equal(root.get("secondName"), second_name);
         final Predicate conditions = builder.and(fnameCondition, snameCondition);
 
         criteria.where(conditions);

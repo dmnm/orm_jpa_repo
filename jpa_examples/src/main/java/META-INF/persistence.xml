@@ -3,11 +3,11 @@
 	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<mapping-file>META-INF/mapping.xml</mapping-file>
-		<!-- <class>orm.jpa.entity.Employee</class>
-		<class>orm.jpa.entity.Project</class>
-		<class>orm.jpa.entity.Department</class>
-		<class>orm.jpa.entity.Programmer</class>
-		<class>orm.jpa.entity.Tester</class> -->
+		<!-- <class>orm.jpa.entity.Employee</class> -->
+		<!-- <class>orm.jpa.entity.Project</class> -->
+		<!-- <class>orm.jpa.entity.Department</class> -->
+		<!-- <class>orm.jpa.entity.Programmer</class> -->
+		<!-- <class>orm.jpa.entity.Tester</class> -->
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/opt/orm_jpa/examples.db"/>
