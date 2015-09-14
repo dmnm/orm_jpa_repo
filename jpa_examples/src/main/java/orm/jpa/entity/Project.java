@@ -18,19 +18,43 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
-    public Long id;
+    private Long id;
 
-    public String name;
+    private String name;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "project_has_employee", joinColumns = { @JoinColumn(name = "project_id",
-            referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "employee_id",
-            referencedColumnName = "id") })
-    public List<Employee> employees;
+    @JoinTable(
+            name = "project_has_employee",
+            joinColumns = { @JoinColumn(name = "project_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "employee_id", referencedColumnName = "id") })
+    private List<Employee> employees;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(final List<Employee> employees) {
+        this.employees = employees;
+    }
 
     @Override
     public String toString() {
         return "Project [id=" + id + ", name=" + name + "]";
     }
-
 }

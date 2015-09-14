@@ -17,13 +17,13 @@ public class TestMapping extends TestCasesJpa {
         em.persist(a);
 
         final Company company = new Company();
-        company.name = "Exigen";
-        company.home = "US";
+        company.setName("Exigen");
+        company.setHome("US");
 
         em.persist(company);
 
         // yet another entity?
-        company.name = "ROI";
+        company.setName("ROI");
 
         em.persist(company);
     }

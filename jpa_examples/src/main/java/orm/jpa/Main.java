@@ -33,41 +33,41 @@ public class Main {
 
         {
             final Employee pj = new Employee();
-            pj.firstName = "Java";
-            pj.secondName = "Developer";
+            pj.setFirstName("Java");
+            pj.setSecondName("Developer");
 
             em.persist(pj);
         }
 
         {
             final Department sqa = new Department();
-            sqa.name = "SQA";
+            sqa.setName("SQA");
 
             em.persist(sqa);
 
             final Employee t = new Employee();
-            t.firstName = "Tester";
+            t.setFirstName("Tester");
 
-            t.department = sqa;
+            t.setDepartment(sqa);
 
             em.persist(t);
         }
 
         {
             final Employee me = new Employee();
-            me.firstName = "Dmitry";
-            me.secondName = "Popov";
+            me.setFirstName("Dmitry");
+            me.setSecondName("Popov");
 
             final Department department = new Department();
-            department.name = "R&D";
+            department.setName("R&D");
 
-            me.department = department;
+            me.setDepartment(department);
 
             final Project project = new Project();
-            project.name = "Hugin";
+            project.setName("Hugin ODC");
 
-            me.projects = asList(project);
-            project.employees = asList(me);
+            me.setProjects(asList(project));
+            project.setEmployees(asList(me));
 
             em.persist(me);
         }
@@ -80,20 +80,20 @@ public class Main {
         em.getTransaction().begin();
 
         final Company company = new Company();
-        company.name = "Exigen";
-        company.home = "US";
+        company.setName("StarSoft");
+        company.setHome("US");
 
         em.persist(company);
 
-        company.name = "ROI";
+        company.setName("Exigen");
         em.persist(company);
 
         em.getTransaction().commit();
 
-        company.name = "ROI";
+        company.setName("ROI");
         em.persist(company);
 
-        company.name = "Return on Intelligence";
+        company.setName("Return on Intelligence");
         em.merge(company);
     }
 }

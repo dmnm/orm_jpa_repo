@@ -13,7 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({ 
+@NamedQueries({
     @NamedQuery(name = "Departments.all", query = "select d from Department d"),
     @NamedQuery(name = "Departments.count", query = "select count(d) from Department d"),
     @NamedQuery(name = "Departments.byName", query = "select d from Department d where d.name = :name") })
@@ -21,13 +21,37 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    public Long id;
+    private Long id;
 
     @Basic(optional = true)
-    public String name;
+    private String name;
 
     @OneToMany(mappedBy = "department", orphanRemoval = false, cascade = CascadeType.ALL)
-    public List<Employee> employees;
+    private List<Employee> employees;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(final List<Employee> employees) {
+        this.employees = employees;
+    }
 
     @Override
     public String toString() {

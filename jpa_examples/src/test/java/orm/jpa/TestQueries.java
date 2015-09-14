@@ -141,7 +141,7 @@ public class TestQueries extends TestCasesJpa {
 
         assertFalse(byName.isEmpty());
         assertEquals(1, byName.size());
-        assertEquals("SQA", byName.get(0).name);
+        assertEquals("SQA", byName.get(0).getName());
 
         System.err.println("Departments.byName = SQA: {");
         for (final Department d : byName) {
@@ -173,7 +173,7 @@ public class TestQueries extends TestCasesJpa {
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
-        assertEquals("Dmitry", result.get(0).firstName);
+        assertEquals("Dmitry", result.get(0).getFirstName());
 
         System.err.println(result.get(0));
     }
@@ -193,7 +193,7 @@ public class TestQueries extends TestCasesJpa {
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
-        assertEquals("Dmitry", result.get(0).firstName);
+        assertEquals("Dmitry", result.get(0).getFirstName());
 
         System.err.println(result.get(0));
     }
